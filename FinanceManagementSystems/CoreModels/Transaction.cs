@@ -1,7 +1,9 @@
 ﻿namespace CoreModels
 {
-    public record Transaction(int Id, 
+    public record Transaction(
+        int Id, 
         DateTime Date, 
         decimal Amount, 
-        string Category );
+        string Category 
+        );
 }
