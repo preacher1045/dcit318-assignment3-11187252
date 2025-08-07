@@ -4,7 +4,7 @@ namespace Accounts
 {
     public class Account
     {
-        public string AccountNumber { get; set; }
+        public string AccountNumber { get; init; }
         public decimal Balance { get; protected set; }
 
         public Account(string accountNumber, decimal initialBalance) 
