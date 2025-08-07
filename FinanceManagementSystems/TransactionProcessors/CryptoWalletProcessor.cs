@@ -43,21 +43,30 @@ namespace TransactionProcessors
             decimal cryptoEquivalence = totalGwei / 1_000_000_000M;
             decimal cryptoValueInCurrency = cryptoEquivalence * transaction.Amount;
 
-            if (cryptoValueInCurrency <= PretendAmount) 
+            if (cryptoValueInCurrency >= PretendAmount) 
             {
                 Console.WriteLine("Insurfficient funds...");
                 return;
             }
 
+            // For testing only will delete later
             for (int i = 0; i < 7; i++) 
             {
                 randomNumber = rand.Next(0, 101);
             }
 
-            Console.WriteLine("Transaction Successful....");
-            Console.WriteLine($"");
+            
+            Console.WriteLine(
+                $"Gas price: {randomNumber}\n" +
+                $"Total Gwei: {transaction.Category}\n" +
+                $"Crypto Equivalence: {cryptoEquivalence}\n" +
+                $"Value in currency: {cryptoValueInCurrency}\n"
+            );
+
+            Console.WriteLine($"Transaction {randomNumber}\n\n Transfer of {cryptoValueInCurrency} for {transaction.Category} was processed successfully.... ");
 
             _ProcessedCryptoTransactionIds.Add(transaction.Id);
+
 
         }
     }
