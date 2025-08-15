@@ -2,7 +2,7 @@
 
 namespace Warehouse_Inventory_Management_System
 {
-    internal class Program
+    internal class Inventory_Management_System
     {
         public interface IInventoryItem
         {
@@ -70,7 +70,7 @@ namespace Warehouse_Inventory_Management_System
 
             public void AddItem(T item) 
             {
-                if (!_items.ContainsKey(item.Id)) 
+                if (_items.ContainsKey(item.Id)) 
                 {
                     throw new DuplicateItemException($"Item with ID {item.Id} already exists.");
                 }
@@ -154,7 +154,7 @@ namespace Warehouse_Inventory_Management_System
 
             public void IncreaseStock<T>(InventoryRepository<T> repo, int id, int quantity) where T: IInventoryItem
             {
-                if (quantity > 0) 
+                if (quantity <= 0) 
                 {
                     throw new InvalidQuantityException("Increase amount must be positive.");
                 }
@@ -167,13 +167,53 @@ namespace Warehouse_Inventory_Management_System
             {
                 repo.RemoveItem(id);
             }
+
+            public InventoryRepository<ElectricalItem> GetElectronicsRepo() => _electronics;
+            public InventoryRepository<GroceryItem> GetGroceriesRepo() => _groceries;
         }
 
 
 
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello, World!");
+            WareHouseManager manager = new WareHouseManager();
+            manager.SeedData();
+
+            Console.WriteLine("Grocery items: ");
+            manager.PrintAllItems(manager.GetGroceriesRepo());
+
+            Console.WriteLine("\n Elecrical items: ");
+            manager.PrintAllItems(manager.GetElectronicsRepo());
+
+            try
+            {
+                manager.RemoveItemById(manager.GetElectronicsRepo(), 89);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error removing item: {ex.Message}");
+            }
+
+            try
+            {
+                manager.IncreaseStock(manager.GetElectronicsRepo(), 1, 0);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error increasing stock: {ex.Message}");
+            }
+
+            try
+            {
+                manager.GetElectronicsRepo().AddItem(new ElectricalItem(1, "Power drill", 2, "Bosch", 2));
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error adding item: {ex.Message}");
+            }
+
+
+
         }
     }
 }
