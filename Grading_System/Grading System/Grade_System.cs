@@ -26,6 +26,7 @@ namespace Grading_System
         }
     }
 
+    // Custom Exception handler inhereting from Exception
     public class InvalidScoreFormatException : Exception
     {
         public InvalidScoreFormatException(string message) : base(message) { }
@@ -35,6 +36,7 @@ namespace Grading_System
     {
         public MissingFieldException(string message) : base(message) { }
     }
+
 
     public class StudentResultProcessor
     {
